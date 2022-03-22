@@ -1,49 +1,104 @@
-create database db_curso_da_minha_vida;
+CREATE DATABASE db_curso_da_minha_vida;
 
-use db_curso_da_minha_vida;
+USE db_curso_da_minha_vida;
 
-create table tb_categoria(
-id bigint auto_increment not null,
+
+CREATE TABLE tb_categoria(id bigint AUTO_INCREMENT NOT NULL,
 formacao varchar(255),
 setor varchar(255),
 parceria_educacional varchar(3),
-primary key(id)
-);
+PRIMARY key(id));
 
-insert into tb_categoria(formacao, parceria_educacional)values("Profissionalizante", "Sim");
-insert into tb_categoria(formacao, parceria_educacional)values("Graduação", "Sim");
-insert into tb_categoria(formacao, parceria_educacional)values("Pós-Graduação", "Sim");
-insert into tb_categoria(formacao, parceria_educacional)values("Mestrado", "Não");
-insert into tb_categoria(formacao, parceria_educacional)values("Técnologo", "Não");
 
-create table tb_produtos(
-id bigint auto_increment not null,
+INSERT INTO tb_categoria(formacao, parceria_educacional)
+VALUES("Profissionalizante", "Sim");
+
+INSERT INTO tb_categoria(formacao, parceria_educacional)
+VALUES("Graduação", "Sim");
+
+INSERT INTO tb_categoria(formacao, parceria_educacional)
+VALUES("Pós-Graduação", "Sim");
+
+INSERT INTO tb_categoria(formacao, parceria_educacional)
+VALUES("Mestrado", "Não");
+
+INSERT INTO tb_categoria(formacao, parceria_educacional)
+VALUES("Técnologo", "Não");
+
+CREATE TABLE tb_produtos(id bigint AUTO_INCREMENT NOT NULL,
 curso varchar(255),
-preco decimal(6,2),
+preco decimal(6, 2),
 duracao varchar(255),
 desconto varchar(50),
-id_categoria bigint,
-primary key(id),
-foreign key(id_categoria) references tb_categoria(id)
-);
-
-insert into tb_produtos (curso, preco, duracao, desconto, id_categoria) values("Curso técnico", 2800.00, "4 semestres", "30%" ,1);
-insert into tb_produtos (curso, preco, duracao, desconto, id_categoria) values("Enfermagem", 650.00, "6 semestres","20%", 2);
-insert into tb_produtos (curso, preco, duracao, desconto, id_categoria) values("Jornalismo", 770.00, "6 meses", "15%", 5);
-insert into tb_produtos (curso, preco, duracao, desconto, id_categoria) values("Medicina", 1500.00, "12 semestres","22%",2);
-insert into tb_produtos (curso, preco, duracao, desconto, id_categoria) values("Inglês", 550.00, "2 semestres","32%", 1);
-insert into tb_produtos (curso, preco, duracao, desconto, id_categoria) values("Sistemas para internet", 1100.00, "2 anos","45%",4);
-insert into tb_produtos (curso, preco, duracao, desconto, id_categoria) values("CC", 999.99, "6 meses","10%", 3);
-insert into tb_produtos (curso, preco, duracao, desconto, id_categoria) values("Advocacia", 1200.00, "10 semestres","10%",5);
-insert into tb_produtos (curso, preco, duracao, desconto, id_categoria) values("Administração", 455.50, "8 semestres" ,"10%", 1);
+id_categoria bigint, PRIMARY key(id),
+FOREIGN key(id_categoria) REFERENCES tb_categoria(id));
 
 
-select curso, CONCAT('R$', FORMAT(preco,2,'pt_br')) as preco , duracao, desconto from tb_produtos where preco > 50;
-select curso, CONCAT('R$', FORMAT(preco,2,'pt_br')) as preco , duracao, desconto from tb_produtos where preco > 3 and preco < 60 ;
-select curso, CONCAT('R$', FORMAT(preco,2,'pt_br')) as preco , duracao, desconto from tb_produtos where curso like 'J%';
+INSERT INTO tb_produtos (curso, preco, duracao, desconto, id_categoria)
+VALUES("Curso técnico", 2800.00, "4 semestres", "30%",1);
 
-select curso, preco, duracao, desconto, parceria_educacional from tb_produtos
-inner join tb_categoria on tb_categoria.id = tb_produtos.id_categoria; 
+INSERT INTO tb_produtos (curso, preco, duracao, desconto, id_categoria)
+VALUES("Enfermagem", 650.00, "6 semestres","20%", 2);
 
-select curso, preco, duracao, desconto, parceria_educacional from tb_produtos
-inner join tb_categoria on  tb_categoria.id = tb_produtos.id_categoria where duracao like '%anos%';
+INSERT INTO tb_produtos (curso, preco, duracao, desconto, id_categoria)
+VALUES("Jornalismo", 770.00, "6 meses", "15%", 5);
+
+INSERT INTO tb_produtos (curso, preco, duracao, desconto, id_categoria)
+VALUES("Medicina", 1500.00, "12 semestres","22%",2);
+
+INSERT INTO tb_produtos (curso, preco, duracao, desconto, id_categoria)
+VALUES("Inglês", 550.00, "2 semestres","32%", 1);
+
+INSERT INTO tb_produtos (curso, preco, duracao, desconto, id_categoria)
+VALUES("Sistemas para internet", 1100.00, "2 anos","45%",4);
+
+INSERT INTO tb_produtos (curso, preco, duracao, desconto, id_categoria)
+VALUES("CC", 999.99, "6 meses","10%", 3);
+
+INSERT INTO tb_produtos (curso, preco, duracao, desconto, id_categoria)
+VALUES("Advocacia", 1200.00, "10 semestres","10%",5);
+
+INSERT INTO tb_produtos (curso, preco, duracao, desconto, id_categoria)
+VALUES("Administração", 455.50, "8 semestres","10%", 1);
+
+
+SELECT curso, CONCAT('R$', FORMAT(preco, 2, 'pt_br')) AS preco, duracao, desconto
+FROM tb_produtos
+
+WHERE preco > 50;
+
+
+SELECT curso,
+       CONCAT('R$', FORMAT(preco, 2, 'pt_br')) AS preco,
+       duracao,
+       desconto
+FROM tb_produtos
+WHERE preco > 3
+  AND preco < 60 ;
+
+
+SELECT curso,
+       CONCAT('R$', FORMAT(preco, 2, 'pt_br')) AS preco,
+       duracao,
+       desconto
+FROM tb_produtos
+WHERE curso like 'J%';
+
+
+SELECT curso,
+       preco,
+       duracao,
+       desconto,
+       parceria_educacional
+FROM tb_produtos
+INNER JOIN tb_categoria ON tb_categoria.id = tb_produtos.id_categoria;
+
+
+SELECT curso,
+       preco,
+       duracao,
+       desconto,
+       parceria_educacional
+FROM tb_produtos
+INNER JOIN tb_categoria ON tb_categoria.id = tb_produtos.id_categoria
+WHERE duracao like '%anos%';
